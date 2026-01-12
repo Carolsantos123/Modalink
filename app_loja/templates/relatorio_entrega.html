@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relatório de Entrega | ModaLink</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+    body { background: #f3f0ff; font-family: 'Segoe UI', sans-serif; }
+    .navbar { background-color: #6a0dad !important; }
+    .navbar-brand { color: #fff !important; font-weight: 600; }
+    .page-title { color: #4c0070; font-weight: 700; }
+    .back-arrow {font-size: 1.5rem; color: #6a0dad; cursor: pointer; margin-right: 10px;}
+
+    .documento {
+        width: 100%;
+        max-width: 900px;
+        margin: 20px auto 40px auto;
+        background: white;
+        padding: 35px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #00000020;
+    }
+
+    .titulo-secao {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #e0e0e0;
+        padding-bottom: 4px;
+    }
+
+    .info-linha {
+        margin-bottom: 5px;
+    }
+
+    .table th {
+        background: #f7f7f7;
+    }
+
+    @media print {
+        body { background: white !important; }
+        .documento { box-shadow: none !important; }
+        .btn-imprimir, .btn-pagamento, .btn-voltar, .back-arrow, .page-title, .navbar { display: none !important; }
+        .documento { margin-top: 0 !important; }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="home_loja.html">ModaLink - Loja</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- TÍTULO + SETA VOLTAR -->
+    <div class="d-flex align-items-center mb-4">
+        <span class="back-arrow" onclick="window.history.back()">
+            <i class="bi bi-arrow-left"></i>
+        </span>
+        <h2 class="page-title mb-0">Relatório</h2>
+    </div>
+
+</div>
+
+<!-- DOCUMENTO -->
+<div class="documento">
+
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Relatório de Entrega</h2>
+        <p class="text-muted mb-0">Resumo da entrega da sacola e itens</p>
+    </div>
+
+    <!-- REVENDEDORA -->
+    <div class="mb-4">
+        <h4 class="titulo-secao">Informações da Revendedora</h4>
+
+        <div class="info-linha"><strong>Nome completo:</strong> Ana Souza</div>
+        <div class="info-linha"><strong>Telefone:</strong> (11) 99999-8888</div>
+        <div class="info-linha"><strong>RG:</strong> 45.678.123-9</div>
+        <div class="info-linha"><strong>Endereço:</strong> Rua das Flores, 120 — Jardim Brasil — São Paulo/SP</div>
+    </div>
+
+    <!-- SACOLA -->
+    <div class="mb-4">
+        <h4 class="titulo-secao">Informações da Sacola</h4>
+
+        <div class="info-linha"><strong>Código da Sacola:</strong> SAC-1023</div>
+        <div class="info-linha"><strong>Data que pegou:</strong> 10/11/2025</div>
+        <div class="info-linha"><strong>Data que entregou:</strong> 17/11/2025</div>
+    </div>
+
+    <!-- TABELA DE ITENS -->
+    <div class="mb-3">
+        <h4 class="titulo-secao">Itens da Sacola</h4>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 100px;">Código</th>
+                    <th>Nome do Item</th>
+                    <th style="width: 70px;">Qtd</th>
+                    <th style="width: 120px;">Preço</th>
+                    <th style="width: 120px;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>00123</td>
+                    <td>Vestido Floral</td>
+                    <td>1</td>
+                    <td>R$ 120,00</td>
+                    <td>Vendido</td>
+                </tr>
+
+                <tr>
+                    <td>00578</td>
+                    <td>Blusa Manga Longa</td>
+                    <td>2</td>
+                    <td>R$ 45,00</td>
+                    <td>Devolvido</td>
+                </tr>
+
+                <tr>
+                    <td>00891</td>
+                    <td>Short Jeans</td>
+                    <td>1</td>
+                    <td>R$ 80,00</td>
+                    <td>Vendido</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <!-- TOTAIS -->
+        <div class="mt-4 p-3 border rounded" style="background:#faf7ff;">
+            <h4 class="titulo-secao">Resumo Financeiro</h4>
+
+            <div class="info-linha">
+                <strong>Preço total da sacola:</strong> R$ 3020,00
+            </div>
+
+            <div class="info-linha">
+                <strong>Preço das vendas:</strong> R$ 320,00
+            </div>
+
+            <div class="info-linha">
+                <strong>Comissão da revendedora (30%):</strong> R$ 96,00
+            </div>
+
+            <!-- PAGAMENTOS -->
+            <div class="mt-4">
+                <h4 class="titulo-secao">Pagamentos</h4>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 170px;">Data</th>
+                            <th style="width: 170px;">Preço</th>
+                            <th>Forma de Pagamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <button class="btn btn-secondary btn-pagamento" data-bs-toggle="modal" data-bs-target="#modalPagamento">
+            Atualizar Pagamento
+        </button>
+
+        <button class="btn btn-dark btn-imprimir" onclick="window.print()">
+            Imprimir PDF
+        </button>
+    </div>
+
+</div>
+
+<!-- MODAL ATUALIZAR PAGAMENTO -->
+<div class="modal fade" id="modalPagamento" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Adicionar Pagamento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <label class="form-label">Data</label>
+        <input type="date" class="form-control mb-3">
+
+        <label class="form-label">Valor</label>
+        <input type="text" class="form-control mb-3" placeholder="R$ 0,00">
+
+        <label class="form-label">Forma de Pagamento</label>
+        <select class="form-select">
+            <option selected disabled>Selecione...</option>
+            <option>PIX</option>
+            <option>Depósito</option>
+            <option>TED</option>
+            <option>Cartão</option>
+        </select>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary">Salvar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

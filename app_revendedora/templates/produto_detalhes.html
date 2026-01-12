@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ModaLink | Detalhes do Produto</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body {
+    background: #f3f0ff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+    background-color: #6a0dad;
+}
+
+.navbar-brand, .nav-icon {
+    color: white;
+}
+
+.product-box {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.product-img {
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.product-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #4c0070;
+}
+
+.price-tag {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6a0dad;
+}
+
+.color-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.color-circle.active {
+    border: 3px solid #6a0dad;
+}
+
+.btn-purple {
+    background-color: #6a0dad;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: #580c9c;
+}
+
+.review-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    margin-bottom: 12px;
+}
+
+.related-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+.related-card img {
+    height: 180px;
+    object-fit: cover;
+}
+.image-wrapper {
+    position: relative;
+    max-width: 360px; /* imagem menor */
+}
+
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: white;
+        }
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="home_loja.html">ModaLink - Loja</a>
+            </div>
+        </nav>
+
+<div class="container my-4">
+
+<!-- PRODUTO -->
+<div class="product-box mb-4">
+<div class="row g-4">
+
+<div class="col-md-5 d-flex justify-content-center">
+    <div class="image-wrapper">
+        
+        <!-- Seta voltar sobre a imagem -->
+          <span class="back-arrow" onclick="window.history.back()">
+            <i class="bi bi-arrow-left"></i>
+        </span>
+
+        <img src="https://images.pexels.com/photos/6311652/pexels-photo-6311652.jpeg"
+             class="img-fluid rounded">
+    </div>
+</div>
+
+    <!-- INFO -->
+    <div class="col-12 col-md-7">
+        <div class="product-title">Vestido Floral Elegante</div>
+        <div class="price-tag mb-2">R$ 119,90</div>
+
+        <p>
+            Vestido leve e elegante, tecido de alta qualidade,
+            ideal para festas, passeios e ocasiões especiais.
+        </p>
+
+        <!-- CORES -->
+        <div class="mb-3">
+            <strong>Cores:</strong><br>
+            <span class="color-circle active" style="background:#ffb6c1;"></span>
+            <span class="color-circle" style="background:#ffffff;"></span>
+            <span class="color-circle" style="background:#000;"></span>
+        </div>
+
+        <!-- TAMANHO -->
+        <div class="mb-2">
+            <strong>Tamanho:</strong>
+            <select class="form-select w-50">
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>GG</option>
+            </select>
+        </div>
+
+        <!-- ESTOQUE -->
+        <p class="text-success fw-semibold">
+            Estoque disponível: 12 unidades
+        </p>
+
+        <!-- QUANTIDADE -->
+        <div class="mb-4">
+            <strong>Quantidade:</strong>
+            <input type="number" class="form-control w-25" value="1" min="1">
+        </div>
+
+        <button class="btn btn-purple w-100 py-2">
+            <i class="bi bi-bag-plus"></i> Adicionar à Sacola
+        </button>
+    </div>
+
+</div>
+</div>
+
+<!-- AVALIAÇÕES -->
+<h4 class="fw-bold mb-3" style="color:#4c0070;">Avaliações de clientes ⭐ 4.8</h4>
+
+<div class="review-box">
+    <strong>Ana Paula</strong> ⭐⭐⭐⭐⭐
+    <p class="mb-0">Vestido lindo, tecido ótimo e entrega rápida.</p>
+</div>
+
+<div class="review-box">
+    <strong>Juliana Costa</strong> ⭐⭐⭐⭐☆
+    <p class="mb-0">Gostei muito, só achei a forma um pouco grande.</p>
+</div>
+
+<!-- RELACIONADOS -->
+<h4 class="fw-bold mt-4 mb-3" style="color:#4c0070;">
+    Você também pode gostar
+</h4>
+
+<div class="row g-3 row-cols-2 row-cols-md-3">
+
+    <div class="col">
+        <div class="related-card">
+            <img src="https://images.pexels.com/photos/6311652/pexels-photo-6311652.jpeg" class="w-100">
+            <div class="p-2">
+                <strong>Vestido Midi</strong>
+                <div class="price-tag mb-2">R$ 139,90</div>
+
+                <a href="produto_detalhe.html" class="btn btn-outline-dark btn-sm w-100">
+                    Detalhes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="related-card">
+            <img src="https://images.pexels.com/photos/6311647/pexels-photo-6311647.jpeg" class="w-100">
+            <div class="p-2">
+                <strong>Vestido Casual</strong>
+                <div class="price-tag mb-2">R$ 99,90</div>
+
+                <a href="produto_detalhe.html" class="btn btn-outline-dark btn-sm w-100">
+                    Detalhes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="related-card">
+            <img src="https://images.pexels.com/photos/6311612/pexels-photo-6311612.jpeg" class="w-100">
+            <div class="p-2">
+                <strong>Vestido Longo</strong>
+                <div class="price-tag mb-2">R$ 159,90</div>
+
+                <a href="produto_detalhe.html" class="btn btn-outline-dark btn-sm w-100">
+                    Detalhes
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

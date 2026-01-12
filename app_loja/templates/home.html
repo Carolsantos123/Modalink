@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loja | ModaLink</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f3f0ff;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: #6a0dad !important;
+        }
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        /* CARDS DE MENU */
+        a.card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .menu-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .menu-card i {
+            font-size: 45px;
+            color: #6a0dad;
+            margin-bottom: 10px;
+        }
+
+        .menu-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* TÍTULO */
+        .page-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4c0070;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+
+        /* CARD DE PEÇAS */
+        .peca-card {
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .peca-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .price-tag {
+            color: #6a0dad;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+
+        .last-update {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: -3px;
+        }
+
+        .circle-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .btn-purple {
+            background-color: #6a0dad;
+            color: white;
+        }
+        .btn-purple:hover {
+            background-color: #580c9c;
+            color: white;
+        }
+
+        /* MODAL ESTILIZADO */
+        .modal-header {
+            background: #6a0dad;
+            color: white;
+        }
+
+        .info-box {
+            background: #f7f2ff;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">ModaLink - Loja</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        
+        <!-- TÍTULO -->
+        <h2 class="page-title text-center">Área da Loja</h2>
+
+        <!-- MENU COM 4 CARDS -->
+        <div class="row g-3 justify-content-center">
+
+            <!-- PEÇAS -->
+            <div class="col-6 col-sm-4 col-md-3">
+                <a href="pecas.html" class="card-link">
+                    <div class="menu-card">
+                        <i class="bi bi-bag"></i>
+                        <h4>Peças</h4>
+                    </div>
+                </a>
+            </div>
+
+            <!-- REVENDEDORAS -->
+            <div class="col-6 col-sm-4 col-md-3">
+                <a href="revendedoras.html" class="card-link">
+                    <div class="menu-card">
+                        <i class="bi bi-people"></i>
+                        <h4>Revendedoras</h4>
+                    </div>
+                </a>
+            </div>
+
+            <!-- SACOLAS -->
+            <div class="col-6 col-sm-4 col-md-3">
+                <a href="controle_sacolas.html" class="card-link">
+                    <div class="menu-card">
+                        <i class="bi bi-bag-check"></i>
+                        <h4>Sacolas</h4>
+                    </div>
+                </a>
+            </div>
+
+            <!-- PERFIL -->
+            <div class="col-6 col-sm-4 col-md-3">
+                <a href="perfil_loja.html" class="card-link">
+                    <div class="menu-card">
+                        <i class="bi bi-person-circle"></i>
+                        <h4>Perfil</h4>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- SEÇÃO DE PEÇAS RECENTES -->
+        <h3 class="mt-5 mb-3" style="color:#4c0070; font-weight:600;">Peças alteradas recentemente</h3>
+
+        <div class="row g-4">
+
+            <!-- CARD 1 -->
+            <div class="col-md-4">
+                <div class="peca-card">
+                    <img src="https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" alt="">
+                    <div class="p-3">
+                        <h5 class="fw-bold">Vestido Floral</h5>
+
+                        <!-- PREÇO EM DESTAQUE -->
+                        <div class="price-tag">R$ 89,90</div>
+                        <div class="last-update">Atualizado em 10/11/2025</div>
+
+                        <p class="mt-2">
+                            <span class="circle-color" style="background:#ffb6c1;"></span>
+                            <span class="circle-color" style="background:#ffffff;"></span>
+                            <span class="circle-color" style="background:#000;"></span>
+                        </p>
+
+                        <button class="btn btn-purple btn-sm w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalPeca1">
+                            Ver detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL DE PEÇA (ATUALIZADO COM NOME + DESCRIÇÃO ANTES DO PREÇO) -->
+    <!-- MODAL DE PEÇA (ATUALIZADO) -->
+<div class="modal fade" id="modalPeca1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Vestido Floral</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" class="img-fluid rounded">
+                    </div>
+
+                    <div class="col-md-7">
+
+                        <!-- NOME EM ROXO + NEGRITO -->
+                        <div class="info-box mb-3">
+                            <strong style="color:#6a0dad; font-size:1.1rem;">
+                                Vestido Floral Elegante
+                            </strong>
+                            <br>
+                            <strong>Descrição:</strong>
+                            Vestido leve, tecido macio, ideal para primavera/verão. Modelagem confortável e cores variadas.
+                        </div>
+
+                        <div class="info-box mb-3">
+                            <strong>Preço unitário:</strong> R$ 89,90 <br>
+                            <small>Última alteração: 10/11/2025</small>
+                        </div>
+
+                        <div class="info-box mb-3">
+                            <strong>Estoque atual:</strong> 34 peças <br>
+                            <small>Última entrada: 02/11/2025</small>
+                        </div>
+
+                        <div class="info-box mb-3">
+                            <strong>Nota fiscal:</strong> NF-202312894 <br>
+                            <strong>Última edição:</strong> 15/11/2025
+                        </div>
+
+                        <div class="mb-3">
+                            <strong>Cores disponíveis:</strong><br>
+                            <span class="circle-color" style="background:#ffb6c1;"></span>
+                            <span class="circle-color" style="background:#ffffff;"></span>
+                            <span class="circle-color" style="background:#000;"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BOTÕES NA EXTREMA DIREITA -->
+            <div class="modal-footer d-flex justify-content-end gap-2">
+                <button class="btn btn-danger">Excluir</button>
+                <button class="btn btn-secondary">Editar</button>
+                <button class="btn btn-purple">Adicionar estoque</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

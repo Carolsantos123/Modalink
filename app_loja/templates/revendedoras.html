@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revendedoras | ModaLink</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body {
+    background: #f3f0ff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+    background-color: #6a0dad !important;
+}
+
+.navbar-brand {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.page-title {
+    color: #4c0070;
+    font-weight: 700;
+    text-align: center;
+}
+
+.back-arrow {
+    font-size: 1.5rem;
+    color: #6a0dad;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.table-card {
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.table-card table {
+    margin-bottom: 0;
+}
+
+.table-card tr:hover {
+    background: #f7f3ff;
+}
+
+.modal-header {
+    background: #6a0dad;
+    color: white;
+}
+
+.info-box {
+    background: #f7f3ff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-purple {
+    background-color: #6a0dad;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: #5900b5;
+}
+
+.text-right {
+    text-align: right;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="home_loja.html">ModaLink - Loja</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- Cabeçalho -->
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+        <div class="d-flex align-items-center">
+            <span class="back-arrow" onclick="window.history.back()"><i class="bi bi-arrow-left"></i></span>
+            <h2 class="page-title mb-0">Revendedoras</h2>
+        </div>
+        <div>
+            <a href="cadastro_revendedora.html" class="btn btn-purple">
+                <i class="bi bi-plus-circle"></i> Cadastrar nova revendedora
+            </a>
+        </div>
+    </div>
+
+    <!-- TABELA DE REVENDEDORAS -->
+    <div class="table-card">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Status</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="revendedoras-tbody">
+                <!-- Conteúdo carregado dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- MODAL DETALHES REVENDEDORA -->
+<div class="modal fade" id="modalRevendedora" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRevendedoraNome">Revendedora</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Dados da revendedora -->
+                <div id="dadosRevendedora" class="mb-4">
+                    <div class="info-box"><strong>Nome:</strong> <span id="infoNome"></span></div>
+                    <div class="info-box"><strong>CPF:</strong> <span id="infoCPF"></span></div>
+                    <div class="info-box"><strong>Telefone:</strong> <span id="infoTelefone"></span></div>
+                    <div class="info-box"><strong>Email:</strong> <span id="infoEmail"></span></div>
+                    <div class="info-box"><strong>Endereço:</strong> <span id="infoEndereco"></span></div>
+                    <div class="info-box"><strong>Status:</strong> <span id="infoStatus"></span></div>
+                </div>
+
+                <!-- Tabela de sacolas -->
+                <h6 class="fw-bold mb-3">Sacolas:</h6>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="tabelaSacolas">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Status</th>
+                                <th class="text-end">Data de devolução</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodySacolas">
+                            <!-- Conteúdo carregado dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// Exemplo de dados simulados
+const revendedoras = [
+    {
+        nome: "Ana Santos",
+        cpf: "123.456.789-00",
+        telefone: "(11) 91234-5678",
+        email: "ana@email.com",
+        endereco: "Rua das Flores, Bairro Jardim, SP, São Paulo, Nº123",
+        status: "Ativa",
+        sacolas: [
+            { codigo: "S001", status: "Entregue", devolucao: "10/11/2025" },
+            { codigo: "S002", status: "Pendente", devolucao: "15/11/2025" }
+        ]
+    },
+    {
+        nome: "Beatriz Lima",
+        cpf: "234.567.890-11",
+        telefone: "(11) 92345-6789",
+        email: "beatriz@email.com",
+        endereco: "Rua Primavera, Bairro Centro, SP, São Paulo, Nº45",
+        status: "Inativa",
+        sacolas: [
+            { codigo: "S003", status: "Entregue", devolucao: "12/11/2025" }
+        ]
+    }
+];
+
+
+// Carregar revendedoras
+const tbody = document.getElementById('revendedoras-tbody');
+
+revendedoras.forEach((r, index) => {
+    const tr = document.createElement('tr');
+
+    tr.innerHTML = `
+        <td>${r.nome}</td>
+        <td>${r.telefone}</td>
+        <td>${r.status}</td>
+        <td class="text-end">
+            <button class="btn btn-sm btn-purple me-1" onclick="editarRevendedora(event, ${index})">Editar</button>
+            <button class="btn btn-sm btn-secondary" onclick="mudarStatus(event, ${index})">Mudar Status</button>
+        </td>
+    `;
+
+    tr.style.cursor = 'pointer';
+    tr.addEventListener('click', () => abrirModalRevendedora(r));
+
+    tbody.appendChild(tr);
+});
+
+
+// Abrir modal da revendedora
+function abrirModalRevendedora(r) {
+    document.getElementById('modalRevendedoraNome').textContent = r.nome;
+    document.getElementById('infoNome').textContent = r.nome;
+    document.getElementById('infoCPF').textContent = r.cpf;
+    document.getElementById('infoTelefone').textContent = r.telefone;
+    document.getElementById('infoEmail').textContent = r.email;
+    document.getElementById('infoEndereco').textContent = r.endereco;
+    document.getElementById('infoStatus').textContent = r.status;
+
+    const tbodySacolas = document.getElementById('tbodySacolas');
+    tbodySacolas.innerHTML = "";
+
+    r.sacolas.forEach((s) => {
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+            <td>${s.codigo}</td>
+            <td>${s.status}</td>
+            <td class="text-end">${s.devolucao}</td>
+            <td class="text-end">
+                <button class="btn btn-sm btn-purple" onclick="verSacola(event, '${s.codigo}')">
+                    Ver sacola
+                </button>
+            </td>
+        `;
+
+        tbodySacolas.appendChild(tr);
+    });
+
+    new bootstrap.Modal(document.getElementById('modalRevendedora')).show();
+}
+
+
+// Funções de ação
+
+function editarRevendedora(event, index) {
+    event.stopPropagation();
+    alert("Editar: " + revendedoras[index].nome);
+}
+
+function mudarStatus(event, index) {
+    event.stopPropagation();
+    alert("Mudar status de: " + revendedoras[index].nome);
+}
+
+// 👉 Função corrigida — leva para sacola_item.html
+function verSacola(event, codigo) {
+    event.stopPropagation();
+    window.location.href = `sacola_item.html?codigo=${codigo}`;
+}
+
+</script>
+
+</body>
+</html>

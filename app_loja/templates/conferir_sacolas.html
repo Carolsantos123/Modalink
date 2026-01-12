@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Conferir Sacolas | ModaLink</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+  :root{
+    --purple:#6a0dad;
+    --purple-dark:#5900b5;
+    --lilac:#f3f0ff;
+    --card:#fff;
+    --danger-soft:#ffe9e9;
+  }
+  body{
+    font-family: "Segoe UI",sans-serif;
+    background: var(--lilac);
+    margin:0;
+    padding:0;
+  }
+
+  /* NAVBAR (padronizado + um pouco maior) */
+  .navbar {
+    background-color: #6a0dad !important;
+    height: 60px;            /* maior para ficar igual ao padrão pedido */
+    display:flex;
+    align-items:center;
+  }
+  .navbar .brand {
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+
+  /* Header area (back arrow + title) */
+  .page-header {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:18px 0;
+  }
+  .back-arrow {
+    font-size: 1.5rem;
+    color: #6a0dad;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  .page-title {
+    color:#4c0070;
+    font-weight:700;
+    font-size:1.4rem;
+  }
+
+  /* Layout */
+  .layout {
+    display:grid;
+    grid-template-columns: 320px 1fr;
+    gap:20px;
+    align-items:start;
+    margin-bottom:48px;
+  }
+  @media (max-width:900px){
+    .layout{ grid-template-columns: 1fr; padding:0 12px;}
+  }
+
+  /* Left list */
+  .sacola-list {
+    background:var(--card);
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.06);
+    max-height:74vh;
+    overflow:auto;
+  }
+  .sacola-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    padding:10px;
+    border-radius:8px;
+    transition:0.12s;
+  }
+  .sacola-item:hover{ background:#f7f3ff; cursor:pointer;}
+  .sacola-meta { font-size:0.9rem; color:#333; }
+  .sacola-badge {
+    background:var(--purple);
+    color:#fff;
+    padding:6px 10px;
+    border-radius:50px;
+    font-weight:700;
+    font-size:0.9rem;
+  }
+
+  /* Right panel (details) */
+  .panel {
+    background:var(--card);
+    border-radius:12px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.06);
+  }
+
+  .sacola-head {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .sacola-info { color:#333; }
+  .lilac-box {
+    background:#f7f2ff;
+    padding:10px 12px;
+    border-radius:8px;
+    color:var(--purple-dark);
+    font-weight:600;
+  }
+
+  /* Totals strip */
+  .totals-row {
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .totals-card {
+    background:#fff;
+    border-radius:8px;
+    padding:10px 12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    min-width:170px;
+  }
+  .totals-card .muted-sm { color:#666; font-size:0.85rem; }
+  .totals-card .big { font-weight:700; font-size:1.05rem; color:#222; }
+
+  /* Scanner row */
+  .scanner-row {
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  .scanner-row input[type="text"]{
+    flex:1;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+  }
+  .scanner-help { font-size:0.85rem; color:#666; }
+
+  /* Sections */
+  .section-title {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:18px;
+    margin-bottom:8px;
+  }
+
+  /* Table */
+  .items-table th, .items-table td{ vertical-align:middle; }
+  .items-table .found { background:#e9f7ef !important; } /* green-ish */
+  .items-table .vendido { background:var(--danger-soft) !important; color:#900; } /* sold in red-ish bg */
+  .items-table .badge-status {
+    min-width:86px;
+    text-align:center;
+  }
+
+  .btn-finalize {
+    background:var(--purple);
+    color:white;
+    border:none;
+  }
+  .btn-finalize:disabled{ background:#b89fe0; opacity:0.8; }
+
+  .muted { color:#666; font-size:0.9rem; }
+  .small { font-size:0.85rem; }
+
+  /* small responsive adjustments */
+  @media (max-width:700px){
+    .totals-card { min-width:140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="home_loja.html" style="color:#fff; font-weight:600;">ModaLink - Loja</a>
+  </div>
+</nav>
+
+<div class="container mt-4 mb-5">
+
+  <!-- Header -->
+  <div class="page-header">
+    <span class="back-arrow" title="Voltar" onclick="window.history.back()"><i class="bi bi-arrow-left"></i></span>
+    <div class="page-title">Conferir Sacolas</div>
+  </div>
+
+  <div class="layout">
+
+    <!-- LEFT: lista de sacolas -->
+    <aside class="sacola-list" id="sacolaList">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <strong>Sacolas para Conferir</strong>
+        <small class="muted">Procure por código</small>
+      </div>
+
+      <div class="mb-3">
+        <input id="searchSacola" class="form-control form-control-sm" placeholder="Buscar código ou revendedora...">
+      </div>
+
+      <div id="listItems">
+        <!-- javascript will inject items here -->
+      </div>
+    </aside>
+
+    <!-- RIGHT: painel de conferência -->
+    <section class="panel" id="panelDetail">
+
+      <!-- default message when no sacola chosen -->
+      <div id="noSelected" class="text-center muted">
+        <p class="mb-0">Selecione uma sacola à esquerda e clique em <strong>Conferir</strong>.</p>
+      </div>
+
+      <!-- sacola details (hidden until selected) -->
+      <div id="selectedPanel" style="display:none;">
+        <div class="sacola-head">
+          <div>
+            <div class="h5 mb-1" id="selTitle">Sacola #000</div>
+            <div class="muted small" id="selRevendedora">Revendedora: -</div>
+            <div class="muted small" id="selDate">Data: -</div>
+          </div>
+
+          <div class="text-end">
+            <div class="muted small">Status atual</div>
+            <div id="selStatus" class="fw-bold">A Conferir</div>
+          </div>
+        </div>
+
+        <!-- totals -->
+        <div class="totals-row">
+          <div class="totals-card">
+            <div class="muted-sm">Quantidade total</div>
+            <div class="big" id="totalQty">0</div>
+          </div>
+
+          <div class="totals-card">
+            <div class="muted-sm">Quantidade vendida</div>
+            <div class="big text-danger" id="qtyVendido">0</div>
+          </div>
+
+          <div class="totals-card">
+            <div class="muted-sm">Quantidade não vendida</div>
+            <div class="big" id="qtyNaoVendido">0</div>
+          </div>
+
+          <div class="totals-card">
+            <div class="muted-sm">Valor total da sacola</div>
+            <div class="big" id="valorTotal">R$ 0,00</div>
+          </div>
+
+          <div class="totals-card">
+            <div class="muted-sm">Valor total (vendidos)</div>
+            <div class="big text-danger" id="valorVendido">R$ 0,00</div>
+          </div>
+
+          <div class="totals-card">
+            <div class="muted-sm">Valor total (não vendidos)</div>
+            <div class="big" id="valorNaoVendido">R$ 0,00</div>
+          </div>
+        </div>
+
+        <!-- scanner -->
+        <div class="scanner-row">
+          <input id="scannerInput" type="text" placeholder="Ler ou digitar o ID (ex: CAM123-PT-M) e pressionar Enter" />
+          <button id="btnScanManual" class="btn btn-outline-secondary btn-sm">Confirmar</button>
+          <div class="scanner-help small text-muted">Campo para digitar se o código estiver danificado.</div>
+        </div>
+
+        <!-- resumo de progresso -->
+        <div class="progress-wrapper mb-3">
+          <div style="flex:1;">
+            <div class="progress" style="height:12px;">
+              <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="progress-text" id="progressText">0 / 0 itens encontrados</div>
+        </div>
+
+        <!-- SEÇÃO: VENDIDO -->
+        <div class="section-title">
+          <h6 class="mb-0">Vendido</h6>
+          <small class="muted">Peças que a revendedora marcou como vendidas</small>
+        </div>
+
+        <div class="table-responsive mb-2">
+          <table class="table items-table">
+            <thead class="table-light">
+              <tr>
+                <th style="width:110px">ID (SKU)</th>
+                <th>Produto</th>
+                <th>Cor</th>
+                <th>Tamanho</th>
+                <th>Valor</th>
+                <th class="text-center">Encontrado</th>
+              </tr>
+            </thead>
+            <tbody id="vendidosTbody">
+              <!-- vendido rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SEÇÃO: PARA CONFERIR -->
+        <div class="section-title">
+          <h6 class="mb-0">Para Conferir</h6>
+          <small class="muted">Peças declaradas como não vendidas — leia os códigos para confirmar presença</small>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table items-table">
+            <thead class="table-light">
+              <tr>
+                <th style="width:110px">ID (SKU)</th>
+                <th>Produto</th>
+                <th>Cor</th>
+                <th>Tamanho</th>
+                <th>Valor</th>
+                <th class="text-center">Status</th>
+                <th class="text-end">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="paraConferirTbody">
+              <!-- conferência rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- FINALIZAR CONFERÊNCIA -->
+        <div class="d-flex justify-content-end gap-2 mt-3">
+<button id="btnFinalize" class="btn btn-primary fw-bold px-4" 
+        onclick="window.location.href='relatorio_entrega.html'">
+  <i class="bi bi-check2-circle me-2"></i> Finalizar Conferência
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+</div>
+
+<!-- Toasts -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:2000">
+  <div id="toastNotFound" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">Código não encontrado nesta sacola.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <div id="toastMismatch" class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="polite" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">Atenção: código corresponde a item marcado como VENDIDO.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <div id="toastAllFound" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="polite" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">Todos os itens não vendidos foram encontrados.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/*
+  conferir_sacolas.html
+  - Layout igual ao separar_sacolas (padronizado)
+  - Left: lista de sacolas (searchable) com botão "Conferir"
+  - Right: ao abrir sacola, mostra VENDIDO (vermelho) e PARA CONFERIR (itens a comparar)
+  - Scanner + input manual para marcar itens encontrados
+  - Totais: quantidade total, quantidade vendida, não vendida, valor total sacola, valor vendidos, valor não vendidos
+*/
+
+// --- Sample data (simulate backend) ---
+const sacolasData = [
+  {
+    codigo: "S-021",
+    revendedora: "Ana Santos",
+    dataEntrega: "2025-11-24",
+    status: "A Conferir",
+    itens: [
+      { sku: "CAM123-PT-M", descricao: "Camiseta Lisa", cor: "Preto", tamanho: "M", valor: 39.90, vendido: true, encontrado:false },
+      { sku: "CAM123-PT-M", descricao: "Camiseta Lisa", cor: "Preto", tamanho: "M", valor: 39.90, vendido: false, encontrado:false }, // outra unidade
+      { sku: "CAL456-BL-G", descricao: "Calça Jeans", cor: "Azul", tamanho: "G", valor: 129.90, vendido: false, encontrado:false },
+      { sku: "VST789-VR-P", descricao: "Vestido Floral", cor: "Vermelho", tamanho: "P", valor: 89.90, vendido: true, encontrado:false }
+    ]
+  },
+  {
+    codigo: "S-022",
+    revendedora: "Maria Oliveira",
+    dataEntrega: "2025-11-25",
+    status: "A Conferir",
+    itens: [
+      { sku: "CAM123-PT-M", descricao: "Camiseta Lisa", cor: "Preto", tamanho: "M", valor: 39.90, vendido: false, encontrado:false },
+      { sku: "BLU321-LS-G", descricao: "Blusa Listrada", cor: "Azul", tamanho: "G", valor: 59.90, vendido: true, encontrado:false }
+    ]
+  }
+];
+
+// state
+let selectedSacola = null; // deep copy on load
+let selectedIndex = null;
+const toastNotFound = new bootstrap.Toast(document.getElementById('toastNotFound'));
+const toastMismatch = new bootstrap.Toast(document.getElementById('toastMismatch'));
+const toastAllFound = new bootstrap.Toast(document.getElementById('toastAllFound'));
+
+// Render left list, with botão "Conferir"
+function renderSacolaList(filter = "") {
+  const container = document.getElementById('listItems');
+  container.innerHTML = "";
+  const q = filter.trim().toLowerCase();
+  sacolasData.forEach((s, idx) => {
+    if (q && !(s.codigo.toLowerCase().includes(q) || s.revendedora.toLowerCase().includes(q))) return;
+    const div = document.createElement('div');
+    div.className = "sacola-item mb-2";
+    div.innerHTML = `
+      <div>
+        <div class="sacola-meta"><strong>${s.codigo}</strong> • <span class="muted">${s.revendedora}</span></div>
+        <div class="small muted">Entrega: ${s.dataEntrega}</div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="sacola-badge text-center" title="Itens">${s.itens.length}</div>
+        <button class="btn btn-sm btn-outline-primary" onclick="openForConferir(event, ${idx})">Conferir</button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+document.getElementById('searchSacola').addEventListener('input', (e) => {
+  renderSacolaList(e.target.value);
+});
+
+function openForConferir(e, idx){
+  e.stopPropagation();
+  loadSacola(idx);
+}
+
+function loadSacola(idx){
+  selectedIndex = idx;
+  // deep copy so we can mutate encontrado locally
+  selectedSacola = JSON.parse(JSON.stringify(sacolasData[idx]));
+  document.getElementById('noSelected').style.display = 'none';
+  document.getElementById('selectedPanel').style.display = 'block';
+
+  document.getElementById('selTitle').textContent = `Sacola ${selectedSacola.codigo}`;
+  document.getElementById('selRevendedora').textContent = `Revendedora: ${selectedSacola.revendedora}`;
+  document.getElementById('selDate').textContent = `Data de entrega: ${selectedSacola.dataEntrega}`;
+  document.getElementById('selStatus').textContent = selectedSacola.status;
+
+  renderItemsTables();
+  updateTotals();
+  // focus input for scanner
+  setTimeout(()=>document.getElementById('scannerInput').focus(),100);
+}
+
+function renderItemsTables(){
+  const vendidosTbody = document.getElementById('vendidosTbody');
+  const paraConferirTbody = document.getElementById('paraConferirTbody');
+  vendidosTbody.innerHTML = '';
+  paraConferirTbody.innerHTML = '';
+
+  selectedSacola.itens.forEach((it, i) => {
+    const row = document.createElement('tr');
+    // common columns
+    const cols = `
+      <td class="small">${it.sku}</td>
+      <td>${it.descricao}</td>
+      <td>${it.cor}</td>
+      <td>${it.tamanho}</td>
+      <td>R$ ${it.valor.toFixed(2).replace('.',',')}</td>
+    `;
+    if(it.vendido){
+      row.className = it.encontrado ? 'vendido found' : 'vendido';
+      row.innerHTML = cols + `<td class="text-center">${it.encontrado ? '<span class="badge bg-success">Encontrado</span>' : '<span class="badge bg-danger">Não encontrado</span>'}</td>`;
+      vendidosTbody.appendChild(row);
+    } else {
+      row.className = it.encontrado ? 'found' : '';
+      row.innerHTML = cols + `<td class="text-center">${it.encontrado ? '<span class="badge bg-success">Encontrado</span>' : '<span class="badge bg-secondary">Pendente</span>'}</td>
+        <td class="text-end">
+          ${it.encontrado ? '' : `<button class="btn btn-sm btn-success" onclick="markFoundFromButton(event, ${i})"><i class="bi bi-check2"></i> Marcar</button>`}
+          <button class="btn btn-sm btn-outline-secondary ms-1" onclick="openItemModal(event, ${i})"><i class="bi bi-eye"></i></button>
+        </td>`;
+      paraConferirTbody.appendChild(row);
+    }
+  });
+}
+
+function updateTotals(){
+  const totalQty = selectedSacola.itens.length;
+  const qtyVendido = selectedSacola.itens.filter(i=>i.vendido).length;
+  const qtyNaoVendido = selectedSacola.itens.filter(i=>!i.vendido).length;
+  const valorTotal = selectedSacola.itens.reduce((s,i)=>s+i.valor,0);
+  const valorVendido = selectedSacola.itens.filter(i=>i.vendido).reduce((s,i)=>s+i.valor,0);
+  const valorNaoVendido = selectedSacola.itens.filter(i=>!i.vendido).reduce((s,i)=>s+i.valor,0);
+  const foundCount = selectedSacola.itens.filter(i=>i.encontrado).length;
+
+  document.getElementById('totalQty').textContent = totalQty;
+  document.getElementById('qtyVendido').textContent = qtyVendido;
+  document.getElementById('qtyNaoVendido').textContent = qtyNaoVendido;
+  document.getElementById('valorTotal').textContent = `R$ ${valorTotal.toFixed(2).replace('.',',')}`;
+  document.getElementById('valorVendido').textContent = `R$ ${valorVendido.toFixed(2).replace('.',',')}`;
+  document.getElementById('valorNaoVendido').textContent = `R$ ${valorNaoVendido.toFixed(2).replace('.',',')}`;
+
+  const totalToFind = selectedSacola.itens.filter(i=>!i.vendido).length;
+  const foundToFind = selectedSacola.itens.filter(i=>!i.vendido && i.encontrado).length;
+  const pct = totalToFind === 0 ? 100 : Math.round((foundToFind / totalToFind) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${foundToFind} / ${totalToFind} itens não vendidos encontrados`;
+
+  // enable finalize only when all non-sold items found
+  document.getElementById('btnFinalize').disabled = foundToFind !== totalToFind;
+}
+
+// scanner handling
+const scannerInput = document.getElementById('scannerInput');
+document.getElementById('btnScanManual').addEventListener('click', () => handleScan(scannerInput.value.trim()));
+scannerInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleScan(scannerInput.value.trim());
+  }
+});
+
+function handleScan(value){
+  if(!selectedSacola) {
+    alert('Selecione uma sacola primeiro.');
+    scannerInput.value = '';
+    return;
+  }
+  if(!value) return;
+
+  // find first item (non-encontrado) with matching sku (case-insensitive)
+  const idx = selectedSacola.itens.findIndex(it => !it.encontrado && it.sku.toLowerCase() === value.toLowerCase());
+  if(idx === -1){
+    // not found among non-encontrados -> maybe it's already encontrado or doesn't exist
+    // try to find any matching sku (to show mismatch if it was vendido)
+    const anyIdx = selectedSacola.itens.findIndex(it => it.sku.toLowerCase() === value.toLowerCase());
+    if(anyIdx !== -1){
+      // found but already marcado encontrado (or sold)
+      // if sold: show warning
+      if(selectedSacola.itens[anyIdx].vendido){
+        toastMismatch.show();
+      } else {
+        // already encontrado
+        // nothing to do, but show small notice
+        toastNotFound.show(); // reusing toast to indicate it's not pending (quick feedback)
+      }
+      scannerInput.value='';
+      scannerInput.focus();
+      return;
+    }
+
+    // not found anywhere
+    toastNotFound.show();
+    scannerInput.value='';
+    scannerInput.focus();
+    return;
+  }
+
+  // mark encontrado
+  selectedSacola.itens[idx].encontrado = true;
+
+  renderItemsTables();
+  updateTotals();
+
+  // if all non-sold found, show success toast
+  const totalToFind = selectedSacola.itens.filter(i=>!i.vendido).length;
+  const foundToFind = selectedSacola.itens.filter(i=>!i.vendido && i.encontrado).length;
+  if(totalToFind > 0 && foundToFind === totalToFind){
+    toastAllFound.show();
+  }
+
+  scannerInput.value = '';
+  scannerInput.focus();
+}
+
+// mark found from button
+function markFoundFromButton(e, idx){
+  e.stopPropagation();
+  if(selectedSacola && selectedSacola.itens[idx] && !selectedSacola.itens[idx].encontrado){
+    selectedSacola.itens[idx].encontrado = true;
+    renderItemsTables();
+    updateTotals();
+  }
+}
+
+// open item modal for details
+function openItemModal(e, itemIndex){
+  e.stopPropagation();
+  const it = selectedSacola.itens[itemIndex];
+  // reuse modal structure from previous page style - simple alert demo
+  const details = `
+    ${it.descricao}\nSKU: ${it.sku}\nCor: ${it.cor}\nTamanho: ${it.tamanho}\nValor: R$ ${it.valor.toFixed(2).replace('.',',')}\nVendido: ${it.vendido ? 'Sim' : 'Não'}\nEncontrado: ${it.encontrado ? 'Sim' : 'Não'}
+  `;
+  alert(details);
+}
+
+// finalize conferência: commit back to sacolasData and show summary
+document.getElementById('btnFinalize').addEventListener('click', () => {
+  if(!selectedSacola) return;
+  const totalToFind = selectedSacola.itens.filter(i=>!i.vendido).length;
+  const foundToFind = selectedSacola.itens.filter(i=>!i.vendido && i.encontrado).length;
+  if(foundToFind !== totalToFind){
+    if(!confirm('Nem todos os itens não vendidos foram encontrados. Deseja finalizar mesmo assim?')) return;
+  }
+
+  // commit: copy encontrado flags back to original data (simple approach — match by index)
+  sacolasData[selectedIndex].itens.forEach((it,i) => {
+    // try to match by sku & properties for safety: we'll set encontrado = true when selectedSacola has encontrado true and same sku
+    const selMatches = selectedSacola.itens.filter(si => si.sku === it.sku && si.descricao === it.descricao && si.tamanho === it.tamanho && si.cor === it.cor);
+    // choose first unmatched
+    let setFound = false;
+    for(const sel of selMatches){
+      // if sel.encontrado and original not marcado yet, mark
+      if(sel.encontrado && !it.encontrado){
+        it.encontrado = true;
+        setFound = true;
+        break;
+      }
+    }
+    if(!setFound){
+      // if not matched by above, keep original it.encontrado (no change)
+    }
+  });
+
+  // update status
+  sacolasData[selectedIndex].status = 'Conferida';
+
+
+  // reset panel
+  renderSacolaList(document.getElementById('searchSacola').value);
+  document.getElementById('noSelected').style.display = 'block';
+  document.getElementById('selectedPanel').style.display = 'none';
+  selectedSacola = null;
+  selectedIndex = null;
+});
+
+// initialize list
+renderSacolaList();
+
+// allow pre-load by ?codigo=S-021
+(function autoLoadFromQuery(){
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('codigo');
+  if(code){
+    const idx = sacolasData.findIndex(s => s.codigo === code);
+    if(idx !== -1) loadSacola(idx);
+  }
+})();
+</script>
+
+</body>
+</html>

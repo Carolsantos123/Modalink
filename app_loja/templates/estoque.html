@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estoque | ModaLink</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body {
+    background: #f3f0ff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+    background-color: #6a0dad !important;
+}
+.navbar-brand {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.back-arrow {
+    font-size: 1.5rem;
+    color: #6a0dad;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.page-title {
+    color: #4c0070;
+    font-weight: 700;
+}
+
+/* Fundo lilás do resumo */
+.stock-summary {
+    background: #e6dbf5;
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.table thead th {
+    background-color: #6a0dad;
+    color: white;
+}
+
+.table tbody tr {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.table tbody tr:hover {
+    background-color: #f7f3ff;
+}
+
+.cor-bolinha {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+    border: 1px solid #222;
+}
+
+.modal-header {
+    background: #6a0dad;
+    color: white;
+}
+
+.info-box {
+    background: #f7f3ff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#modal-tamanhos span {
+    display: block;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="home_loja.html">ModaLink - Loja</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- CABEÇALHO COM SETA -->
+    <div class="page-header">
+        <span class="back-arrow" onclick="window.history.back()"><i class="bi bi-arrow-left"></i></span>
+        <h2 class="page-title">Estoque</h2>
+    </div>
+
+    <!-- RESUMO ESTOQUE -->
+    <div class="stock-summary">
+        <div>Total de peças: <strong>420</strong></div>
+        <div>Valor total: <strong>R$ 28.450,00</strong></div>
+    </div>
+
+    <!-- FILTRO -->
+    <div class="mb-3">
+        <div class="row g-2">
+            <div class="col-md-4">
+                <input type="text" id="filtroNome" class="form-control" placeholder="Pesquisar por nome ou código...">
+            </div>
+            <div class="col-md-4">
+                <select id="filtroCategoria" class="form-select">
+                    <option value="">Todas as categorias</option>
+                    <option>Blusas</option>
+                    <option>Calças</option>
+                    <option>Vestidos</option>
+                    <option>Jaquetas</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABELA SIMPLES -->
+    <table class="table table-striped table-hover" id="tabelaEstoque">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr onclick="abrirDetalhesEstoque('001')">
+                <td>001</td>
+                <td>Camiseta Branca</td>
+                <td>32</td>
+            </tr>
+            <tr onclick="abrirDetalhesEstoque('002')">
+                <td>002</td>
+                <td>Calça Jeans Azul</td>
+                <td>25</td>
+            </tr>
+            <tr onclick="abrirDetalhesEstoque('003')">
+                <td>003</td>
+                <td>Vestido Vermelho</td>
+                <td>15</td>
+            </tr>
+            <tr onclick="abrirDetalhesEstoque('004')">
+                <td>004</td>
+                <td>Jaqueta Preta</td>
+                <td>30</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- MODAL DETALHES PEÇA -->
+<div class="modal fade" id="modalDetalhesEstoque" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Detalhes da peça</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Lado esquerdo: imagem + todos os botões -->
+                    <div class="col-md-5 text-center">
+                        <img id="modal-foto" src="" class="img-fluid rounded mb-3">
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-purple" onclick="window.location.href='cadastro_pecas.html'">
+                                <i class="bi bi-plus-lg"></i> Adicionar estoque
+                            </button>
+                            <button class="btn btn-warning" id="btnEditarModal">
+                                <i class="bi bi-pencil"></i> Editar
+                            </button>
+                            <button class="btn btn-danger" id="btnExcluirModal">
+                                <i class="bi bi-trash"></i> Excluir
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lado direito: informações -->
+                    <div class="col-md-7">
+                        <h3 id="modal-nome" class="fw-bold"></h3>
+
+                        <div class="info-box"><strong>Detalhe:</strong> <span id="modal-detalhe"></span></div>
+                        <div class="info-box"><strong>Quantidade total:</strong> <span id="modal-quantidade"></span></div>
+                        <div class="info-box">
+                            <strong>Quantidade por tamanho:</strong><br>
+                            <span id="modal-tamanhos"></span>
+                        </div>
+                        <div class="info-box"><strong>Cores disponíveis:</strong> <span id="modal-cores"></span></div>
+                        <div class="info-box"><strong>Código:</strong> <span id="modal-codigo"></span></div>
+                        <div class="info-box"><strong>Fornecedor:</strong> <span id="modal-fornecedor"></span></div>
+                        <div class="info-box"><strong>Última nota fiscal:</strong> <span id="modal-nota"></span></div>
+                        <div class="info-box"><strong>Data da última alteração:</strong> <span id="modal-data"></span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Dados de exemplo
+const estoqueDados = {
+    '001': {
+        foto: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab',
+        nome: 'Camiseta Branca',
+        detalhe: 'Camiseta branca básica, ideal para o dia a dia.',
+        quantidade: 32,
+        tamanhos: {P:10,M:12,G:10},
+        cores: ['white','black','gray'],
+        codigo: '001',
+        fornecedor: 'ModaStore',
+        nota: 'NF #004521',
+        data: '12/02/2025'
+    },
+    '002': {
+        foto: 'https://images.unsplash.com/photo-1580910051072-8a7a28e14ee1',
+        nome: 'Calça Jeans Azul',
+        detalhe: 'Calça jeans azul masculina, conforto e estilo.',
+        quantidade: 25,
+        tamanhos: {M:10,G:10,GG:5},
+        cores: ['blue','darkblue'],
+        codigo: '002',
+        fornecedor: 'JeansCo',
+        nota: 'NF #004522',
+        data: '10/02/2025'
+    },
+    '003': {
+        foto: 'https://images.unsplash.com/photo-1572019020460-9d3b83c5d6fa',
+        nome: 'Vestido Vermelho',
+        detalhe: 'Vestido vermelho feminino, perfeito para eventos.',
+        quantidade: 15,
+        tamanhos: {P:5,M:5,G:5},
+        cores: ['red'],
+        codigo: '003',
+        fornecedor: 'ModaStore',
+        nota: 'NF #004523',
+        data: '11/02/2025'
+    },
+    '004': {
+        foto: 'https://images.unsplash.com/photo-1593032465171-1fefb902afc1',
+        nome: 'Jaqueta Preta',
+        detalhe: 'Jaqueta preta unissex, resistente e elegante.',
+        quantidade: 30,
+        tamanhos: {M:10,G:10,GG:10},
+        cores: ['black'],
+        codigo: '004',
+        fornecedor: 'ModaStore',
+        nota: 'NF #004524',
+        data: '09/02/2025'
+    }
+};
+
+// Abrir modal
+function abrirDetalhesEstoque(codigo) {
+    const dados = estoqueDados[codigo];
+    if(!dados) return;
+
+    document.getElementById('modal-foto').src = dados.foto;
+    document.getElementById('modal-nome').textContent = dados.nome;
+    document.getElementById('modal-detalhe').textContent = dados.detalhe;
+    document.getElementById('modal-quantidade').textContent = dados.quantidade;
+    
+    // Quantidade por tamanho
+    const tamanhosSpan = Object.entries(dados.tamanhos).map(([t,q]) => `${t}: ${q}`).join('\n');
+    document.getElementById('modal-tamanhos').innerHTML = Object.entries(dados.tamanhos).map(([t,q]) => `${t}: ${q}`).join('<br>');
+
+    document.getElementById('modal-cores').innerHTML = dados.cores.map(c => `<span class="cor-bolinha" style="background:${c};"></span>`).join('');
+    document.getElementById('modal-codigo').textContent = dados.codigo;
+    document.getElementById('modal-fornecedor').textContent = dados.fornecedor;
+    document.getElementById('modal-nota').textContent = dados.nota;
+    document.getElementById('modal-data').textContent = dados.data;
+
+    const modal = new bootstrap.Modal(document.getElementById('modalDetalhesEstoque'));
+    modal.show();
+}
+
+// Filtro simples
+document.getElementById('filtroNome').addEventListener('input', function() {
+    const filtro = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#tabelaEstoque tbody tr');
+    rows.forEach(row => {
+        const nome = row.cells[1].textContent.toLowerCase();
+        const codigo = row.cells[0].textContent.toLowerCase();
+        row.style.display = (nome.includes(filtro) || codigo.includes(filtro)) ? '' : 'none';
+    });
+});
+
+document.getElementById('filtroCategoria').addEventListener('change', function() {
+    // Aqui você pode adicionar filtro por categoria se os dados tiverem categoria
+});
+</script>
+
+</body>
+</html>

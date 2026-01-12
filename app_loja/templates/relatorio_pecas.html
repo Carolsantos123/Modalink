@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Peças | ModaLink</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body { background: #f3f0ff; font-family: 'Segoe UI', sans-serif; }
+.navbar { background-color: #6a0dad !important; }
+.navbar-brand { color: #fff !important; font-weight: 600; }
+.page-title { color: #4c0070; font-weight: 700; }
+.btn-purple { background-color: #6a0dad; color: white; }
+.btn-purple:hover { background-color: #5900b5; color: white; }
+.card-list { border-radius: 12px; background: #fff; box-shadow: 0 3px 12px rgba(0,0,0,0.1); padding: 12px; margin-bottom: 20px; }
+.card-item { padding: 8px; border-bottom: 1px solid #eee; cursor: pointer; transition: 0.2s; }
+.card-item:hover { background: #f7f3ff; }
+.search-input { width: 180px; }
+.ver-mais { cursor: pointer; color: #6a0dad; font-weight: bold; }
+.cor-bolinha { width: 18px; height: 18px; border-radius: 50%; display: inline-block; margin-right: 4px; border: 1px solid #222; }
+.modal-header { background: #6a0dad; color: white; }
+.progress-container { margin-bottom: 20px; }
+.progress-container h5 { margin-bottom: 10px; font-weight: 600; }
+.back-arrow {font-size: 1.5rem; color: #6a0dad; cursor: pointer; margin-right: 10px;}
+.page-title { color: #4c0070; font-weight: 700;}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="home_loja.html">ModaLink - Loja</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- BOTÃO VOLTAR E VER ESTOQUE COMPLETO -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+   <!-- TÍTULO + VOLTAR -->
+<div class="d-flex align-items-center mb-4">
+    <span class="back-arrow" onclick="window.history.back()">
+        <i class="bi bi-arrow-left"></i>
+    </span>
+    <h2 class="page-title mb-0">Relatório geral</h2>
+</div>
+
+
+    <!-- Botão Ver Estoque Completo -->
+    <a href="estoque.html" class="btn btn-outline-secondary">
+        <i class="bi bi-box-seam"></i> Ver estoque completo
+    </a>
+</div>
+
+
+    <!-- GRÁFICO DE VENDAS SEMANAIS -->
+<div class="card p-3 mb-4">
+    <h5 class="fw-bold mb-3">Peças vendidas por semana (mês atual)</h5>
+    
+    <div class="mb-2">
+        <div class="d-flex justify-content-between mb-1">
+            <span>Semana 1</span>
+            <span>45 peças</span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="d-flex justify-content-between mb-1">
+            <span>Semana 2</span>
+            <span>60 peças</span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="d-flex justify-content-between mb-1">
+            <span>Semana 3</span>
+            <span>30 peças</span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="d-flex justify-content-between mb-1">
+            <span>Semana 4</span>
+            <span>75 peças</span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+</div>
+
+
+   
+    <!-- DUAS COLUNAS -->
+    <div class="row">
+
+        <!-- COLUNA 1 -->
+        <div class="col-lg-6">
+
+            <!-- REVENDEDORAS COM MAIORES VENDAS -->
+            <div class="card-list">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Revendedoras com maiores vendas do mês</h5>
+                    <input type="text" class="form-control search-input" placeholder="Pesquisar...">
+                </div>
+                <div class="card-item d-flex justify-content-between align-items-center">
+                    <span>Ana Santos <small class="text-muted">15/11/2025</small></span>
+                    <div>
+                        <span class="me-2">R$ 2.500,00</span>
+                        <button class="btn btn-sm btn-purple" onclick="alert('Ver lista de Ana Santos')">Ver lista</button>
+                    </div>
+                </div>
+                <div class="card-item d-flex justify-content-between align-items-center">
+                    <span>Maria Oliveira <small class="text-muted">12/11/2025</small></span>
+                    <div>
+                        <span class="me-2">R$ 1.800,00</span>
+                        <button class="btn btn-sm btn-purple" onclick="alert('Ver lista de Maria Oliveira')">Ver lista</button>
+                    </div>
+                </div>
+                <div class="ver-mais" onclick="alert('Abrir lista completa de revendedoras')">Ver mais...</div>
+            </div>
+
+            <!-- PEÇAS PARA REPOSIÇÃO -->
+            <div class="card-list">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Peças para reposição (estoque < 5)</h5>
+                    <input type="text" class="form-control search-input" placeholder="Pesquisar peça...">
+                </div>
+                <div class="card-item" data-bs-toggle="modal" data-bs-target="#modalDetalhesPeca">Camiseta Branca - Estoque: 3</div>
+                <div class="card-item" data-bs-toggle="modal" data-bs-target="#modalDetalhesPeca">Calça Jeans Azul - Estoque: 2</div>
+                <div class="card-item" data-bs-toggle="modal" data-bs-target="#modalDetalhesPeca">Vestido Vermelho - Estoque: 1</div>
+                <div class="ver-mais" onclick="alert('Abrir lista completa de peças para reposição')">Ver mais...</div>
+            </div>
+
+        </div>
+
+        <!-- COLUNA 2 -->
+        <div class="col-lg-6">
+
+            <!-- PEÇAS MAIS VENDIDAS -->
+            <div class="card-list">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Peças mais vendidas</h5>
+                    <input type="text" class="form-control search-input" placeholder="Pesquisar peça...">
+                </div>
+                <div class="card-item" data-bs-toggle="modal" data-bs-target="#modalDetalhesPeca">Camiseta Branca - Vendidas: 120</div>
+                <div class="card-item" data-bs-toggle="modal" data-bs-target="#modalDetalhesPeca">Calça Jeans Azul - Vendidas: 95</div>
+                <div class="card-item" data-bs-toggle="modal" data-bs-target="#modalDetalhesPeca">Vestido Vermelho - Vendidas: 60</div>
+                <div class="ver-mais" onclick="alert('Abrir lista completa de peças mais vendidas')">Ver mais...</div>
+            </div>
+
+            <!-- PEÇAS DESATIVADAS -->
+            <div class="card-list">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Peças desativadas</h5>
+                    <input type="text" class="form-control search-input" placeholder="Pesquisar peça...">
+                </div>
+                <div class="card-item d-flex justify-content-between align-items-center">
+                    <span>Jaqueta Preta</span>
+                    <span class="text-danger">Desativada <button class="btn btn-sm btn-warning ms-2" onclick="alert('Editar Jaqueta Preta')">Editar</button></span>
+                </div>
+                <div class="card-item d-flex justify-content-between align-items-center">
+                    <span>Blusa Listrada</span>
+                    <span class="text-danger">Desativada <button class="btn btn-sm btn-warning ms-2" onclick="alert('Editar Blusa Listrada')">Editar</button></span>
+                </div>
+                <div class="ver-mais" onclick="alert('Abrir lista completa de peças desativadas')">Ver mais...</div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL RELATÓRIO GERAL DE ESTOQUE -->
+<div class="modal fade" id="modalEstoqueTotal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Relatório Geral de Estoque</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Peça</th>
+                            <th>Quantidade</th>
+                            <th>Tamanho mais vendido</th>
+                            <th>Faturamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Camiseta Branca</td><td>120</td><td>M</td><td>R$ 4.788,00</td></tr>
+                        <tr><td>Calça Jeans Azul</td><td>95</td><td>G</td><td>R$ 7.590,00</td></tr>
+                        <tr><td>Vestido Vermelho</td><td>60</td><td>M</td><td>R$ 7.794,00</td></tr>
+                        <tr><td>Jaqueta Preta</td><td>30</td><td>G</td><td>R$ 3.000,00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DETALHES DA PEÇA -->
+<div class="modal fade" id="modalDetalhesPeca" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Camiseta Branca</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-7">
+                        <h3 class="fw-bold">Camiseta Branca</h3>
+                        <div class="mb-2"><strong>Descrição:</strong> Camiseta branca básica</div>
+                        <div class="mb-2"><strong>Preço unitário:</strong> R$ 39,90</div>
+                        <div class="mb-2"><strong>Estoque atual:</strong> 3 unidades</div>
+                        <div class="mb-2"><strong>Fornecedor:</strong> ModaStore</div>
+                        <div class="mb-2"><strong>Tamanhos disponíveis:</strong> P:1 M:1 G:1</div>
+                        <div class="mb-2"><strong>Cores disponíveis:</strong>
+                            <span class="cor-bolinha" style="background:white;"></span>
+                            <span class="cor-bolinha" style="background:black;"></span>
+                        </div>
+                        <div class="d-flex gap-2 mt-3 justify-content-end">
+                            <button class="btn btn-warning">Editar</button>
+                            <button class="btn btn-danger">Desativar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

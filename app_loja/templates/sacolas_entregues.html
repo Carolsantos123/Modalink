@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sacolas Entregues | ModaLink</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+    body { background:#f3f0ff; font-family:'Segoe UI', sans-serif; }
+    .navbar { background:#6a0dad !important; }
+    .navbar-brand { color:#fff !important; font-weight:600; }
+
+    .page-title { color:#4c0070; font-weight:700; display:flex; align-items:center; gap:10px; }
+
+    .sacola-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 10px #00000020;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .sacola-card:hover { transform: scale(1.01); }
+
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .status-pendente { background: #fff3cd; color: #856404; }
+    .status-parcial { background: #cfe2ff; color: #084298; }
+    .status-pago { background: #d1e7dd; color: #0f5132; }
+
+    /* Conteúdo expandido */
+    .detalhes {
+        display: none;
+        margin-top: 15px;
+        padding: 15px;
+        background: #faf7ff;
+        border-radius: 10px;
+        border: 1px solid #e6d9ff;
+    }
+
+    .btn-smaller {
+        padding: 4px 10px;
+        font-size: 0.82rem;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="home_loja.html">ModaLink - Loja</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <h2 class="page-title mb-4">
+        <i class="bi bi-arrow-left" onclick="history.back()" style="cursor:pointer;"></i>
+        Sacolas Entregues
+    </h2>
+
+    <!-- SACOLA 1 -->
+    <div class="sacola-card" onclick="toggleDetalhes('s1')">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h5 class="fw-bold mb-1">Sacola SAC-1023</h5>
+                <p class="mb-1"><strong>Revendedora:</strong> Ana Souza</p>
+                <p class="mb-1"><strong>Entregue em:</strong> 17/11/2025</p>
+                <p class="mb-1"><strong>Total vendido:</strong> R$ 320,00</p>
+                <p class="mb-0"><strong>Comissão:</strong> R$ 96,00</p>
+            </div>
+
+            <div class="text-end">
+                <span class="status-badge status-pendente">Pagamento Pendente</span>
+            </div>
+        </div>
+
+        <!-- DETALHES EXPANDIDOS -->
+        <div id="s1" class="detalhes">
+            <h6 class="fw-bold">Pagamentos Concluídos:</h6>
+            <ul>
+                <li>— Nenhum pagamento registrado ainda.</li>
+            </ul>
+
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+                <a href="relatorio_entrega.html" class="btn btn-outline-dark btn-smaller">
+                    Ver Relatório <i class="bi bi-filetype-pdf ms-1"></i>
+                </a>
+                <button class="btn btn-primary btn-smaller" data-bs-toggle="modal" data-bs-target="#modalAgendar">
+                    Agendar Pagamento
+                </button>
+                <button class="btn btn-success btn-smaller" data-bs-toggle="modal" data-bs-target="#modalRegistrar">
+                    Registrar Pagamento
+                </button>
+                <button class="btn btn-secondary btn-smaller">
+                    Concluir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SACOLA 2 -->
+    <div class="sacola-card" onclick="toggleDetalhes('s2')">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h5 class="fw-bold mb-1">Sacola SAC-1010</h5>
+                <p class="mb-1"><strong>Revendedora:</strong> Maria Oliveira</p>
+                <p class="mb-1"><strong>Entregue em:</strong> 05/11/2025</p>
+                <p class="mb-1"><strong>Total vendido:</strong> R$ 540,00</p>
+                <p class="mb-0"><strong>Comissão:</strong> R$ 162,00</p>
+            </div>
+
+            <div class="text-end">
+                <span class="status-badge status-parcial">Pagamento Parcial</span>
+            </div>
+        </div>
+
+        <div id="s2" class="detalhes">
+            <h6 class="fw-bold">Pagamentos Concluídos:</h6>
+            <ul>
+                <li>10/11/2025 – R$ 200,00 – PIX</li>
+            </ul>
+
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+                <a href="relatorio_entrega.html" class="btn btn-outline-dark btn-smaller">Ver Relatório</a>
+                <button class="btn btn-primary btn-smaller" data-bs-toggle="modal" data-bs-target="#modalAgendar">Agendar Pagamento</button>
+                <button class="btn btn-success btn-smaller" data-bs-toggle="modal" data-bs-target="#modalRegistrar">Registrar Pagamento</button>
+                <button class="btn btn-secondary btn-smaller">Concluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SACOLA 3 -->
+    <div class="sacola-card" onclick="toggleDetalhes('s3')">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h5 class="fw-bold mb-1">Sacola SAC-0998</h5>
+                <p class="mb-1"><strong>Revendedora:</strong> Carla Mendes</p>
+                <p class="mb-1"><strong>Entregue em:</strong> 28/10/2025</p>
+                <p class="mb-1"><strong>Total vendido:</strong> R$ 410,00</p>
+                <p class="mb-0"><strong>Comissão:</strong> R$ 123,00</p>
+            </div>
+
+            <div class="text-end">
+                <span class="status-badge status-pago">Pago</span>
+            </div>
+        </div>
+
+        <div id="s3" class="detalhes">
+            <h6 class="fw-bold">Pagamentos Concluídos:</h6>
+            <ul>
+                <li>05/11/2025 – R$ 410,00 – Depósito</li>
+            </ul>
+
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+                <a href="relatorio_entrega.html" class="btn btn-outline-dark btn-smaller">Ver Relatório</a>
+                <button class="btn btn-secondary btn-smaller">Concluir</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- MODAL AGENDAR -->
+<div class="modal fade" id="modalAgendar" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Agendar Pagamento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label class="form-label">Data do Pagamento</label>
+        <input type="date" class="form-control mb-3">
+
+        <label class="form-label">Valor Previsto</label>
+        <input type="text" class="form-control mb-3" placeholder="R$ 0,00">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary">Cancelar</button>
+        <button class="btn btn-primary">Salvar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REGISTRAR -->
+<div class="modal fade" id="modalRegistrar" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Registrar Pagamento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label class="form-label">Data</label>
+        <input type="date" class="form-control mb-3">
+
+        <label class="form-label">Valor Pago</label>
+        <input type="text" class="form-control mb-3" placeholder="R$ 0,00">
+
+        <label class="form-label">Forma de Pagamento</label>
+        <select class="form-select">
+            <option disabled selected>Selecione...</option>
+            <option>PIX</option>
+            <option>Depósito</option>
+            <option>TED</option>
+            <option>Cartão</option>
+        </select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary">Cancelar</button>
+        <button class="btn btn-success">Registrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleDetalhes(id) {
+    let box = document.getElementById(id);
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
+</script>
+
+</body>
+</html>

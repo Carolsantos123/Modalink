@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sacola | ModaLink</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body{background:#f3f0ff;font-family:'Segoe UI',sans-serif}
+.navbar{background:#6a0dad}
+.navbar-brand{color:#fff!important;font-weight:600}
+
+.page-title{color:#4c0070;font-weight:700;display:flex;gap:10px;align-items:center}
+
+.card-box{
+    background:#fff;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 0 10px #00000020;
+    margin-bottom:20px
+}
+
+.section-title{color:#4c0070;font-weight:700;margin:25px 0 12px}
+
+.item-card{
+    background:#fff;
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 0 8px #00000020;
+    margin-bottom:12px;
+    cursor:pointer
+}
+.item-card:hover{background:#faf7ff}
+
+.item-row{display:flex;gap:12px;align-items:center}
+.item-row img{width:55px;height:55px;object-fit:cover;border-radius:8px}
+
+.status{
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:.8rem;
+    font-weight:600
+}
+.nao{background:#e2e3e5}
+.vendido{background:#d1e7dd;color:#0f5132}
+.pag-nenhum{background:#fff3cd;color:#856404}
+.pag-parcial{background:#cfe2ff;color:#084298}
+.pag-pago{background:#d1e7dd;color:#0f5132}
+
+.detalhes{display:none;margin-top:15px}
+.linha-paga{background:#d1e7dd!important}
+
+.resumo{background:#fff;border-radius:14px;padding:20px;box-shadow:0 0 10px #00000020}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar px-3">
+    <span class="navbar-brand">ModaLink</span>
+</nav>
+
+<div class="container mt-4">
+
+<h2 class="page-title mb-4">
+    <i class="bi bi-arrow-left" onclick="history.back()" style="cursor:pointer"></i>
+    Sacola #1023
+</h2>
+
+<!-- CABEÇALHO -->
+<div class="card-box">
+    <p><strong>Loja:</strong> ModaLink Centro</p>
+    <p><strong>Revendedora:</strong> Ana Souza</p>
+    <p><strong>Data de devolução:</strong> 05/01/2026</p>
+</div>
+
+<!-- NÃO VENDIDOS -->
+<h4 class="section-title">Itens não vendidos</h4>
+
+<div class="item-card" onclick="abrirModalVenda(this)"
+ data-nome="Vestido Floral"
+ data-img="https://images.pexels.com/photos/6311652/pexels-photo-6311652.jpeg"
+ data-valor="120">
+    <div class="item-row">
+        <img src="https://images.pexels.com/photos/6311652/pexels-photo-6311652.jpeg">
+        <div>
+            <strong>Vestido Floral</strong><br>
+            M • Rosa<br>
+            R$ 120,00<br>
+            <span class="status nao">Não vendido</span>
+        </div>
+    </div>
+</div>
+
+<!-- VENDIDOS -->
+<h4 class="section-title">Itens vendidos</h4>
+<div id="vendidos"></div>
+
+<!-- RESUMO -->
+<h4 class="section-title">📊 Resumo financeiro</h4>
+<div class="resumo">
+    <p><strong>Total vendido:</strong> R$ <span id="totalVendido">0,00</span></p>
+    <p><strong>Total pendente:</strong> R$ <span id="totalPendente">0,00</span></p>
+    <p><strong>Comissão (30%):</strong> R$ <span id="totalComissao">0,00</span></p>
+</div>
+
+<div class="row mt-4 g-2">
+    <div class="col-4"><button class="btn btn-outline-dark w-100">Voltar</button></div>
+    <div class="col-4"><button class="btn btn-secondary w-100">Salvar</button></div>
+    <div class="col-4"><button class="btn btn-purple w-100">Finalizar</button></div>
+</div>
+
+</div>
+
+<!-- MODAL VENDA -->
+<div class="modal fade" id="modalVenda">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+    <h5 class="fw-bold">Registrar venda</h5>
+    <button class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+
+<label>Cliente</label>
+<input id="cliente" class="form-control mb-2">
+
+<label>Forma de pagamento</label>
+<select id="formaPagamento" class="form-select mb-2" onchange="toggleParcelas()">
+    <option value="">Selecione</option>
+    <option value="avista">À vista</option>
+    <option value="parcelado">Parcelado</option>
+</select>
+
+<div id="parcelasBox" style="display:none">
+    <label>Qtd. parcelas</label>
+    <input type="number" min="1" class="form-control mb-2" onchange="gerarParcelas(this.value)">
+    <div id="parcelas"></div>
+</div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" onclick="confirmarVenda()">Salvar venda</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- MODAL PAGAMENTO -->
+<div class="modal fade" id="modalPagamento">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+    <h5 class="fw-bold">Confirmar pagamento</h5>
+    <button class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+    <input type="date" id="pgData" class="form-control mb-2">
+    <input id="pgValor" class="form-control mb-2">
+    <select id="pgForma" class="form-select">
+        <option>PIX</option>
+        <option>Dinheiro</option>
+        <option>Cartão</option>
+    </select>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" onclick="confirmarPagamento()">Confirmar</button>
+</div>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let itemAtual, checkboxAtual;
+let totalVendido=0, totalPago=0;
+
+function abrirModalVenda(card){
+    itemAtual = card;
+    new bootstrap.Modal(modalVenda).show();
+}
+
+function toggleParcelas(){
+    parcelasBox.style.display = formaPagamento.value==='parcelado'?'block':'none';
+}
+
+function gerarParcelas(qtd){
+    parcelas.innerHTML='';
+    for(let i=1;i<=qtd;i++){
+        parcelas.innerHTML+=`
+        <div class="border p-2 mb-2">
+            <strong>Parcela ${i}</strong>
+            <input type="date" class="form-control mb-1">
+            <input class="form-control mb-1" placeholder="Valor previsto">
+            <select class="form-select">
+                <option>PIX</option>
+                <option>Dinheiro</option>
+                <option>Cartão</option>
+            </select>
+        </div>`;
+    }
+}
+
+function confirmarVenda(){
+    const nome=itemAtual.dataset.nome;
+    const img=itemAtual.dataset.img;
+    const valor=Number(itemAtual.dataset.valor);
+
+    totalVendido+=valor;
+
+    vendidos.innerHTML+=`
+    <div class="item-card" onclick="toggleDetalhes(this)">
+        <div class="item-row">
+            <img src="${img}">
+            <div>
+                <strong>${nome}</strong><br>
+                Cliente: ${cliente.value}<br>
+                R$ ${valor.toFixed(2)}<br>
+                <span class="status vendido">Vendido</span>
+                <span class="status pag-nenhum pagamento-status">Nenhum pagamento</span>
+            </div>
+        </div>
+
+        <div class="detalhes">
+            <table class="table table-sm mt-3">
+                <tr data-valor="${valor}">
+                    <td><input type="checkbox" onclick="abrirPagamento(this,event)"></td>
+                    <td>Pagamento</td>
+                    <td>R$ ${valor.toFixed(2)}</td>
+                </tr>
+            </table>
+        </div>
+    </div>`;
+
+    itemAtual.remove();
+    atualizarResumo();
+    bootstrap.Modal.getInstance(modalVenda).hide();
+}
+
+function toggleDetalhes(card){
+    const d=card.querySelector('.detalhes');
+    d.style.display=d.style.display==='block'?'none':'block';
+}
+
+function abrirPagamento(cb,e){
+    e.stopPropagation();
+    checkboxAtual=cb;
+    new bootstrap.Modal(modalPagamento).show();
+}
+
+function confirmarPagamento(){
+    const tr=checkboxAtual.closest('tr');
+    tr.classList.add('linha-paga');
+    checkboxAtual.checked=true;
+    checkboxAtual.disabled=true;
+    totalPago+=Number(tr.dataset.valor);
+    atualizarResumo();
+    bootstrap.Modal.getInstance(modalPagamento).hide();
+}
+
+function atualizarResumo(){
+    totalVendidoSpan.innerText=totalVendido.toFixed(2);
+    totalPendente.innerText=(totalVendido-totalPago).toFixed(2);
+    totalComissao.innerText=(totalVendido*0.3).toFixed(2);
+}
+</script>
+
+</body>
+</html>
